@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Message
 import android.view.View
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import br.ufc.quixada.basiccomponents.R
 import kotlinx.android.synthetic.main.music_player_activity.*
@@ -32,7 +31,6 @@ class MusicPlayActivity : AppCompatActivity() {
         mp.setVolume(0.5f, 0.5f)
         totalTime = mp.duration
 
-        // Volume Bar
         volumeBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekbar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -48,7 +46,6 @@ class MusicPlayActivity : AppCompatActivity() {
             }
         )
 
-        // Position Bar
         positionBar.max = totalTime
         positionBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
@@ -64,7 +61,6 @@ class MusicPlayActivity : AppCompatActivity() {
             }
         )
 
-        // Thread
         Thread(Runnable {
             while (mp != null) {
                 try {
@@ -83,10 +79,8 @@ class MusicPlayActivity : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             var currentPosition = msg.what
 
-            // Update positionBar
             positionBar.progress = currentPosition
 
-            // Update Labels
             var elapsedTime = createTimeLabel(currentPosition)
             elapsedTimeLabel.text = elapsedTime
 
@@ -110,12 +104,10 @@ class MusicPlayActivity : AppCompatActivity() {
     fun playBtnClick(v: View) {
 
         if (mp.isPlaying) {
-            // Stop
             mp.pause()
             playBtn.setBackgroundResource(R.drawable.play)
 
         } else {
-            // Start
             mp.start()
             playBtn.setBackgroundResource(R.drawable.stop)
         }
